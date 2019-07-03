@@ -1,0 +1,153 @@
+
+html {
+  font-family: 'Nunito', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.portrait {
+  border-radius: 50%;
+  max-height: 20%;
+  max-width: 20%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+}
+
+::selection {
+  color: #003262;
+  background: none; }
+
+ul {
+  list-style-type: none; }
+
+a {
+  color: gray;
+  text-decoration: none;
+  font-weight: 500; }
+
+a:hover, a:visited, a:link, a:active
+{
+    text-decoration: none;
+}
+
+i {
+    font-size: 1em;
+}
+
+hr {
+    width : 25%;
+    top: 25px;
+}
+
+#welcome {
+  display: inline;
+  color: #003262; }
+
+.menu {
+  text-align: center;
+  margin: 0 0 0 -25pt;
+  padding: 0;
+  font-weight: 500; }
+  .menu li {
+    margin: 10px;
+    display: inline-block; }
+
+.hidden {
+  display: none; }
+
+.shown {
+  display: inline; }
+
+.selected {
+  font-weight:ld;
+  color: #003262; }
+
+#description {
+  display: inline;
+  color: gray; }
+
+.links i {
+  height: 20px;
+  width: 20px; }
+
+.title {
+  font-weight: 100;
+  font-size: 48pt;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+.heading {
+  padding-top: 50pt;
+  padding-bottom: 50pt; }
+
+.content {
+  margin: 0 auto;
+  letter-spacing: 1pt;
+  line-height: 150%; }
+
+#intro {
+  display: inline; }
+
+#main {
+  padding-top: 200px;
+  padding-bottom: 200px; }
+
+
+#container {
+      overflow: hidden;
+      margin: 10px;
+    }
+    .box {
+      float: left;
+      position: relative;
+      width: 33.333%;
+      padding-bottom: 20%;
+    }
+    .boxInner {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 10px;
+      bottom: 10px;
+      overflow: hidden;
+    }
+    .boxInner img {
+      position: relative;
+      width: 100%;
+    }
+.textimg{
+    padding: 0 auto;
+}
+   
+    @media only screen and (max-width : 480px) {
+      /* Smartphone view: 1 tile */
+      .box {
+        width: 100%;
+        padding-bottom: 100%;
+      }
+    }
+    @media only screen and (max-width : 1050px) and (min-width : 651px) {
+      /* Small desktop / ipad view: 3 tiles */
+      .box {
+        width: 33.3%;
+        padding-bottom: 33.3%;
+      }
+    }
+
+.index {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: block;
+  text-align: center;
+  font-size: 1rem;
+  color: #003262;
+  background-color: #fff;
+  cursor: pointer;
+}
