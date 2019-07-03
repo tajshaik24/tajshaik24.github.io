@@ -5,41 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Taj Shaik">
-    <link rel="shortcut icon" href="images/taj_shaik.png">
+    <link rel="shortcut icon" href="assets/favicon.ico">
     <title>Taj Shaik</title>
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito|Open+Sans&display=swap" rel="stylesheet">
   </head>
 
   <body>
-    <div class="heading">
-        <div class="mainimg">
-            <img class="portrait" src="images/portrait.jpg"/>
+    <div class="website">
+      <div class="heading">
+        <div><img class="portrait" src="images/pfp.jpeg"/></div>
+        <div class="title">Taj Shaik</div>
+        <div class="menu">
+          <ul class="links">
+            <li><a class="link" id="email" href onclick="copyEmail()"><i class="fa fa-envelope-o fa-lg"></i></a></li>
+            <li><a class="link" id="linkedin" href="http://linkedin.com/in/tajshaik"><i class="fa fa-linkedin fa-lg"></i></a></li>
+            <li><a class="link" id="github" href="https://github.com/tajshaik24"><i class="fa fa-github fa-lg"></i></a></li>
+            <li><a class="link" id="medium" href="https://medium.com/@tajshaik24"><i class="fa fa-medium fa-lg"></i></a></li>
+            <li><a class="link" id="resume" href="assets/resume.pdf"><i class="fa fa-file-text-o fa-lg"></i></a></li>
+            </li>
+          </ul>
         </div>
-      <div class="title">
-        Taj Shaik
+        <hr>
       </div>
-      <div class="menu">
-        <ul class="links">
-          <li><a class="link" id="email" href onclick="copyEmail()"><i class="fa fa-envelope-o fa-lg"></i></a></li>
-          <li><a class="link" id="linkedin" href="http://linkedin.com/in/tajshaik"><i class="fa fa-linkedin fa-lg"></i></a></li>
-          <li><a class="link" id="github" href="https://github.com/tajshaik24"><i class="fa fa-github fa-lg"></i></a></li>
-          <li><a class="link" id="quora" href="https://www.quora.com/profile/Taj-Shaik-2"><i class="fa fa-quora fa-lg"></i></a></li>
-          <li><a class="link" id="medium" href="https://medium.com/@tajshaik24"><i class="fa fa-medium fa-lg"></i></a></li>
-          <li><a class="link" id="resume" href="assets/resume.pdf"><i class="fa fa-file-text-o fa-lg"></i></a></li>
-          </li>
-        </ul>
-      </div>
-      <hr>
-
       <div class="content">
-        <div id="welcome"><p id="welcome">welcome.</p></div> </br>
-          <div id="description">I'm studying Computer Science at UC Berkeley, </br> interested in the cloud and data. </br> Currently interning at Zendesk as a SWE. </div>
+        <div id="welcome">welcome.</div>
+        <div id="main">
+          <p id="description">
+            I'm an undergrad studying Computer Science at UC Berkeley. I'm interested in operating systems, distributed systems, data systems, and the cloud. Currently interning at Salesforce for the Database Group, Org Migration Scale.
+          </p>
+          <p id="project">
+            For research, I'm working on <a class="tasc-link" href="https://github.com/saurav-c/aftsi">TASC</a>, a shim which provides stronger consistency guarantees to serverless applications, with Saurav Chhatrapati.
+          </p>
+        </div>
       </div>
     </div>
-    <!-- Javascript -->
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="assets/js/index.js"></script>
   </body>
 </html>

@@ -1,10 +1,9 @@
 var email = "tshaik@berkeley.edu";
 var map = {
     "resume": "resume",
-    "email": "email (click to copy)",
+    "email": "email (tshaik@berkeley.edu)",
     "linkedin": "linkedin",
     "github": "github",
-    "quora": "quora",
     "medium": "medium"
 };
 

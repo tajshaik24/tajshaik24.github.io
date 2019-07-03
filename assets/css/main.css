@@ -1,79 +1,106 @@
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 400;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
 
 html {
-  font-family: 'Nunito', sans-serif;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 300;
+  font-family: 'San Francisco';
   text-align: center;
-  margin: 0;
+  margin: auto;
   padding: 0;
+}
+
+body {
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: #36454F;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+@media(hover: hover) and (pointer: fine) {
+  a.hover {
+    text-decoration: none;
+    color: #003262;
+  }
+}
+
+hr {
+  width : 25%;
+  top: 25px;
+}
+
+.website {
+  height: 100%;
+  position: relative;
+  top: 50%;
+  transform: translateY(5%);
+}
+
+.tasc-link {
+  color: #003262;
 }
 
 .portrait {
   border-radius: 50%;
-  max-height: 20%;
-  max-width: 20%;
+  width: 20%;
   display: block;
   margin-left: auto;
   margin-right: auto;
   height: auto;
 }
 
-::selection {
-  color: #003262;
-  background: none; }
-
-ul {
-  list-style-type: none; }
-
-a {
-  color: gray;
-  text-decoration: none;
-  font-weight: 500; }
-
-a:hover, a:visited, a:link, a:active
-{
-    text-decoration: none;
-}
-
-i {
-    font-size: 1em;
-}
-
-hr {
-    width : 25%;
-    top: 25px;
-}
-
 #welcome {
   display: inline;
-  color: #003262; }
+  color: #003262;
+}
 
 .menu {
   text-align: center;
   margin: 0 0 0 -25pt;
   padding: 0;
-  font-weight: 500; }
-  .menu li {
-    margin: 10px;
-    display: inline-block; }
+  font-weight: 500;
+}
 
-.hidden {
-  display: none; }
-
-.shown {
-  display: inline; }
-
-.selected {
-  font-weight:ld;
-  color: #003262; }
-
-#description {
-  display: inline;
-  color: gray; }
+.menu li {
+  margin: 10px;
+  display: inline-block;
+}
 
 .links i {
   height: 20px;
-  width: 20px; }
+  width: 20px;
+}
+
+
+#main {
+  padding: 0%;
+  display: inline;
+  align-items: center;
+  color: #36454F;
+}
+
+#description {
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+#project {
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  margin-bottom: 0;
+}
 
 .title {
   font-weight: 100;
@@ -82,72 +109,28 @@ hr {
   text-align: center;
 }
 
-.heading {
-  padding-top: 50pt;
-  padding-bottom: 50pt; }
-
 .content {
   margin: 0 auto;
   letter-spacing: 1pt;
-  line-height: 150%; }
-
-#intro {
-  display: inline; }
+  line-height: 150%;
+}
 
 #main {
   padding-top: 200px;
-  padding-bottom: 200px; }
-
-
-#container {
-      overflow: hidden;
-      margin: 10px;
-    }
-    .box {
-      float: left;
-      position: relative;
-      width: 33.333%;
-      padding-bottom: 20%;
-    }
-    .boxInner {
-      position: absolute;
-      left: 10px;
-      right: 10px;
-      top: 10px;
-      bottom: 10px;
-      overflow: hidden;
-    }
-    .boxInner img {
-      position: relative;
-      width: 100%;
-    }
-.textimg{
-    padding: 0 auto;
+  padding-bottom: 200px;
 }
-   
-    @media only screen and (max-width : 480px) {
-      /* Smartphone view: 1 tile */
-      .box {
-        width: 100%;
-        padding-bottom: 100%;
-      }
-    }
-    @media only screen and (max-width : 1050px) and (min-width : 651px) {
-      /* Small desktop / ipad view: 3 tiles */
-      .box {
-        width: 33.3%;
-        padding-bottom: 33.3%;
-      }
-    }
 
-.index {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  display: block;
-  text-align: center;
-  font-size: 1rem;
-  color: #003262;
-  background-color: #fff;
-  cursor: pointer;
+@media only screen and (max-width : 480px) {
+  .title {
+    font-size: 3em;
+  }
+  .portrait{
+    width: 60%;
+  }
+  #description {
+    width: 90%;
+  }
+  #project {
+    width: 90%;
+  }
 }
