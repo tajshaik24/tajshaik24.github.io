@@ -41,7 +41,7 @@ hr {
   height: 100%;
   position: relative;
   top: 50%;
-  transform: translateY(5%);
+  transform: translateY(15%);
 }
 
 .tasc-link {
@@ -132,5 +132,13 @@ hr {
   }
   #project {
     width: 90%;
+  }
+
+  .website {
+    height: 100%;
+    position: relative;
+    top: 50%;
+    transform: translateY(5%);
+    margin-bottom: 10%;
   }
 }
