@@ -1,0 +1,133 @@
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 400;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
+
+html {
+  font-family: 'San Francisco';
+  text-align: center;
+  margin: auto;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: #36454F;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+@media(hover: hover) and (pointer: fine) {
+  a.hover {
+    text-decoration: none;
+    color: #003262;
+  }
+}
+
+hr {
+  width : 25%;
+  top: 25px;
+}
+
+.website {
+  height: 100%;
+  position: relative;
+  margin-top: 5%;
+  transform: translateY(15%);
+}
+
+.portrait {
+  border-radius: 50%;
+  width: 250px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+}
+
+#welcome {
+  display: inline;
+  color: #003262;
+}
+
+.menu {
+  text-align: center;
+  margin: 0 0 0 -25pt;
+  padding: 0;
+  font-weight: 500;
+}
+
+.menu li {
+  margin: 10px;
+  display: inline-block;
+}
+
+.links i {
+  height: 20px;
+  width: 20px;
+}
+
+
+#main {
+  padding: 0%;
+  display: inline;
+  align-items: center;
+  color: #36454F;
+}
+
+#description {
+  margin-left: auto;
+  margin-right: auto;
+  width: 450px;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.title {
+  font-weight: 100;
+  font-size: 48pt;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+.content {
+  margin: 0 auto;
+  letter-spacing: 1pt;
+  line-height: 150%;
+}
+
+#main {
+  padding-top: 200px;
+  padding-bottom: 200px;
+}
+
+@media only screen and (max-width : 480px) {
+  .title {
+    font-size: 3em;
+  }
+  .portrait{
+    width: 60%;
+  }
+  #description {
+    width: 90%;
+  }
+  #project {
+    width: 90%;
+  }
+
+  .website {
+    height: 100%;
+    position: relative;
+    top: 50%;
+    transform: translateY(5%);
+    margin-bottom: 10%;
+  }
+}
