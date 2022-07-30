@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        .annotation path {
+            fill: none;
+            stroke: green;
+            stroke-width: 4px;
+        }
+    
+        .annotation path.connector-arrow{
+            fill: green;
+        }
+    
+        .annotation text {
+            fill: green;
+        }
+    
+        .annotation-note-title {
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+    <body onload="main()">
+        <h1>Average Salaries for Data Scientist Jobs in the United States (from 2020-2022).</h1>
+
+        <p>The goal of this project is to analyze and track the salary of data science focused roles based on experience level (in the United States). 
+            As you can see in the chart below, the data scientists are organized into 4 main categories (EN for Entry-level roles, 
+            MI for Mid-level roles, SE for Senior-level roles, EX for Executive-level roles). If you hover over the bars and the opacity changes, please click on the bar. 
+            Those bars link to pages which indicate more information about that job type and the salary trend from 2020 to 2022.</p>
+
+        <svg></svg>
+
+        <p>Source of the dataset: <a href="https://www.kaggle.com/datasets/ruchi798/data-science-job-salaries">Kaggle Dataset about Data Science Job Salaries</a>. Some text used to describe the data set has been pulled from the Kaggle page and used above.</p>
+    </body>
+    <script>
+        async function main() {
+            // Extracting the data and storing as JS variables
+            var data = await d3.csv("data/ds_salaries.csv");
+            data = data.filter(function(d) {
+                if(d.company_location == "US") {
+                    return d;
+                }
+            });
+            var totalJobTypeSalary = {"EN" : 0, "MI" : 0, "SE" : 0, "EX" : 0}
+            var totalJobTypeCount = {"EN" : 0, "MI" : 0, "SE" : 0, "EX" : 0}
+            data.forEach((d,i) => {
+                const experience_level = d.experience_level
+                const salaryInUSD = parseInt(d.salary_in_usd, 10)
+                totalJobTypeSalary[experience_level] += salaryInUSD
+                totalJobTypeCount[experience_level] += 1
+            })
+            var avgJobTypeSalary = {
+                "EN": totalJobTypeSalary["EN"]/totalJobTypeCount["EN"],
+                "MI": totalJobTypeSalary["MI"]/totalJobTypeCount["MI"],
+                "SE": totalJobTypeSalary["SE"]/totalJobTypeCount["SE"],
+                "EX": totalJobTypeSalary["EX"]/totalJobTypeCount["EX"],
+            }
+            const jobTypes = Object.keys(avgJobTypeSalary)
+            var salaries = Object.values(avgJobTypeSalary)
+            var highestAvgSalary = Math.round(Math.max(...salaries)/1000)*1000 + 1000
+            var lowestAvgSalary = Math.round(Math.min(...salaries)/1000)*1000 - 1000
+
+            var pageMappings = {
+                "EN" : "entry.html", 
+                "MI" : "middle.html", 
+                "SE" : "senior.html", 
+                "EX" : "exec.html"
+            }
+            
+            // Defining the margins and spacing for the graph
+            var margin = 110
+            var width = 700
+            var height = 400
+            var svg = d3.select("svg").attr("width", width + 2*margin).attr("height", height + 2*margin)
+            var g = svg.append("g").attr("transform", "translate("+ margin + "," + margin + ")")
+            
+            // Building the axes and adding in the labels (for the graph)
+            var xAxis = d3.scaleBand().domain(jobTypes).range([0, width]).padding(0.3)
+            var yAxis = d3.scaleLinear().domain([0, highestAvgSalary]).range([height, 0])
+            var colorSchema = d3.scaleOrdinal().domain(jobTypes).range(["teal", "orange", "purple", "blue"])
+            // Left Axis (y-axis)
+            g.append("g")
+                .call(d3.axisLeft(yAxis).tickFormat( function(d) {
+                    return "$" + d/1000 + "K"
+                }))
+                .append("text")
+                .attr("x", -height/2)
+                .attr("y", -margin/2)
+                .attr('transform', 'rotate(-90)')
+                .attr("stroke", "black")
+                .attr("fill", "black")
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Helvetica')
+                .style('font-size', 16)
+                .text("Average Salary (in USD)")
+            // Bottom Axis (x-axis)
+            g.append("g")
+                .attr("transform", "translate(0, "+height+")")
+                .call(d3.axisBottom(xAxis))
+                .append("text")
+                .attr("y", margin/2)
+                .attr("x", width/2)
+                .attr("stroke", "black")
+                .attr("fill", "black")
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Helvetica')
+                .style('font-size', 16)
+                .text("Job Level")
+            // Title
+            svg.append('text')
+                .attr('x', width/2 + margin)
+                .attr('y', margin/2)
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Helvetica')
+                .style('font-size', 25)
+                .text('Average Salary for Data Science Roles (by Job Type)');
+
+            // Adding in the rectangles for the bar chart
+            g.append("g")
+                .selectAll(".rectangle")
+                .data(salaries)
+                .enter().append("rect")
+                .attr("x", function(d,i) { return xAxis(jobTypes[i]); })
+                .attr("y", function(d) { return yAxis(d); })
+                .attr("width", xAxis.bandwidth())
+                .attr("height", function(d) { return height - yAxis(d); })
+                .on("click", function(d,i) {
+                    window.location.href="jobType/" + pageMappings[jobTypes[i]]
+                })
+                .style("opacity", 0.7)
+                .style("stroke", function(d,i) { return colorSchema(jobTypes[i]); })
+                .style("fill", function(d,i) { return colorSchema(jobTypes[i]); })
+                .on("mouseover", function(d,i) {
+                    d3.select(this).style("opacity", 1.0)
+                })
+                .on("mouseout", function() {
+                    d3.select(this).style("opacity", 0.7)
+                })
+
+            // Annotations
+            const annotations = [{
+                data: {jobType: "EX", salary: avgJobTypeSalary["EX"]},
+                dy: 37,
+                dx: 140,
+                note: { title: `As we can see the higher the job type, the more salary is made.`,
+                    label: "The more business value the job type adds, the higher their pay is. This makes more sense as executive data scientist roles are highly valued and help companies pivot their business model for the better.",
+                    wrap: 150},
+                connector: { end: "arrow", type: "curve" },
+                id: "annotation-increasing-pay"
+            }, {
+                data: {jobType: "EN", salary: avgJobTypeSalary["EN"]},
+                dy: -7,
+                dx: 50,
+                note: { title: `Entry-level data science positions (on average) make less than $100K.`,
+                    label: "This is interesting especially given the fact that the data scientists has become such a critical resource in the workforce (in both engineering and nonengineering use cases).",
+                    wrap: 150},
+                connector: { end: "arrow", type: "curve" },
+                id: "annotation-increasing-pay"
+            }]
+
+            const makeAnnotations = d3.annotation()
+                                    .notePadding(15)
+                                    .type(d3.annotationLabel)
+                                    .accessors({
+                                        x: d => xAxis(d.jobType) + xAxis.bandwidth()/2,
+                                        y: d => yAxis(d.salary)
+                                    })
+                                    .accessorsInverse({
+                                        jobType: d => x.invert(d.x),
+                                        count: d => y.invert(d.y)
+                                    })
+                                    .annotations(annotations)
+
+            g.append("g")
+                .attr("class", "annotations")
+                .call(makeAnnotations)
+        }
+    </script>
+</html>
