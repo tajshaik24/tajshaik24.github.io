@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        .annotation path {
+            fill: none;
+            stroke: green;
+            stroke-width: 4px;
+        }
+    
+        .annotation path.connector-arrow{
+            fill: green;
+        }
+    
+        .annotation text {
+            fill: green;
+        }
+    
+        .annotation-note-title {
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+    <body onload="main()">
+        <h1>Salaries for Senior-Level Data Scientist Jobs in the United States (from 2020-2022).</h1>
+
+        <p>You can see the trend of average salaries from 2020 to 2022 of senior-level data science focused roles in the United States. Some job titles for senior-level positions are Lead Data Engineer and Director of Data Engineering.</p>
+
+
+        <svg></svg>
+
+        <p>Source of the dataset: <a href="https://www.kaggle.com/datasets/ruchi798/data-science-job-salaries">Kaggle Dataset about Data Science Job Salaries</a>. Some text used to describe the data set has been pulled from the Kaggle page and used above.</p>
+        <a href="../index.html">Go back to the Home Page</a>
+    </body>
+    <script>
+        async function main() {
+            // Parameters
+            var jobType = "SE"
+            const jobTypes = ["EN", "MI", "SE", "EX"]
+            var colorSchema = d3.scaleOrdinal().domain(jobTypes).range(["teal", "orange", "purple", "blue"])
+
+            // Extracting the data and storing as JS variables
+            var data = await d3.csv("../data/ds_salaries.csv");
+            data = data.filter(function(d) {
+                if(d.company_location == "US" && d.experience_level == jobType) {
+                    return d;
+                }
+            });
+            var totalSumSalary = {"2020" : 0, "2021" : 0, "2022" : 0}
+            var totalJobYearCount = {"2020" : 0, "2021" : 0, "2022" : 0}
+            data.forEach((d,i) => {
+                const year = d.work_year
+                const salaryInUSD = parseInt(d.salary_in_usd, 10)
+                totalSumSalary[year] += salaryInUSD
+                totalJobYearCount[year] += 1
+            })
+            var avgSalary = {"2020" : totalSumSalary["2020"]/totalJobYearCount["2020"], 
+                            "2021" : totalSumSalary["2021"]/totalJobYearCount["2021"], 
+                            "2022" : totalSumSalary["2022"]/totalJobYearCount["2022"]}
+            var salaries = Object.values(avgSalary)
+            var highestAvgSalary = Math.round(Math.max(...salaries)/1000)*1000  + 1000
+            var lowestAvgSalary = Math.round(Math.min(...salaries)/1000)*1000 - 1000
+            const years = Object.keys(avgSalary)
+            
+            // Defining the margins and spacing for the graph
+            var margin = 110
+            var width = 700
+            var height = 400
+            var svg = d3.select("svg").attr("width", width + 2*margin).attr("height", height + 2*margin)
+            var g = svg.append("g")
+                        .attr("transform", "translate("+ margin + "," + margin + ")")
+
+            // Building the axes and adding in the labels (for the graph)
+            var xAxis = d3.scaleBand().domain(years).range([0, width])
+            var yAxis = d3.scaleLinear().domain([lowestAvgSalary, highestAvgSalary]).range([height, 0])
+            // Left Axis (y-axis)
+            g.append("g")
+                .call(d3.axisLeft(yAxis).tickFormat( function(d) {
+                    return "$" + d/1000 + "K"
+                })).append("text")
+                .attr("y", -margin/2)
+                .attr("x", -height/2)
+                .attr('transform', 'rotate(-90)')
+                .attr("stroke", "black")
+                .attr("fill", "black")
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Helvetica')
+                .style('font-size', 16)
+                .text("Average Salary (in USD)")
+            // Bottom Axis (x-axis)
+            g.append("g")
+                .attr("transform", "translate(0, "+height+")")
+                .call(d3.axisBottom(xAxis))
+                .append("text")
+                .attr("x", width/2)
+                .attr("y", margin/2)
+                .attr("stroke", "black")
+                .attr("fill", "black")
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Helvetica')
+                .style('font-size', 16)
+                .text("Year")
+            // Title for Graph
+            svg.append('text')
+                .attr('x', width/2 + margin)
+                .attr('y', margin/2)
+                .attr('text-anchor', 'middle')
+                .style('font-family', 'Helvetica')
+                .style('font-size', 25)
+                .text('Average Salary for an Senior-Level Data Science Role (2020-2022)');
+            // Building the line graph (dots + line)
+            g.append('g')
+                .selectAll("dot")
+                .data(salaries)
+                .enter()
+                .append("circle")
+                .attr("cx", function (d,i) { return xAxis(years[i]) + margin + 6; } )
+                .attr("cy", function (d) { return yAxis(d); } )
+                .attr("r", 10)
+                .style("fill", colorSchema(jobType))
+            var line = d3.line()
+                .x( function(d,i) { return xAxis(years[i]) + margin + 6; }) 
+                .y( function(d) { return yAxis(d); }) 
+            g.append("path")
+                .datum(salaries)
+                .attr("d", line)
+                .style("fill", "none")
+                .style("stroke", colorSchema(jobType))
+                .style("stroke-width", "2")
+
+            // Annotations
+            const annotations = [{
+                data: {year: "2022", salaryInUSD: avgSalary["2022"]},
+                dy: -100,
+                dx: 10,
+                note: { title: `Over time, senior-level positions never had an increase in pay.`,
+                    label: "Senior-level positions never had an increase in salary from year to year from 2020 to 2022. Only decreases in average salary.",
+                    wrap: 150},
+                connector: { end: "arrow", type: "curve" },
+                id: "2022-annotation-EN"
+            }]
+
+            const makeAnnotations = d3.annotation()
+                                    .notePadding(15)
+                                    .type(d3.annotationLabel)
+                                    .accessors({
+                                        x: d => xAxis(d.year) + margin + 6,
+                                        y: d => yAxis(d.salaryInUSD)
+                                    })
+                                    .accessorsInverse({
+                                        year: d => x.invert(d.x),
+                                        salaryInUSD: d => y.invert(d.y)
+                                    })
+                                    .annotations(annotations)
+
+            g.append("g")
+                .attr("class", "annotations")
+                .call(makeAnnotations)
+        }
+    </script>
+</html>
