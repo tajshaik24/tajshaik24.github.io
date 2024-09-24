@@ -1,7 +1,7 @@
-var email = "tshaik@berkeley.edu";
+var email = "tajshaik24@gmail.com";
 var map = {
-    "resume": "email (tshaik@berkeley.edu) for a copy",
-    "email": "email (tshaik@berkeley.edu)",
+    "resume": `email ${email} for a copy`,
+    "email": `email ${email}`,
     "linkedin": "linkedin",
     "github": "github",
     "medium": "medium"
